@@ -2,8 +2,14 @@ const express = require('express')
 
 const app = express()
 
-const PORT = 3300
+const PORT = 5300
 
+const authRoute = require('./routes/auth')
+
+// Route middlewares
+app.use('/api/user', authRoute)
+
+// Home route
 app.get('/', (req, res) =>{
     res.send("Hello World!")
 })
