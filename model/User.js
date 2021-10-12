@@ -23,8 +23,8 @@ const userSchema = new mongoose.Schema({
     password:{
         type: String,
         required: [true, 'User password is required!'],
-        min: [6, 'Password is too short!'],
-        max: [1000, 'Password is too long!']
+        minlength: [6, 'Password is too short!'],
+        maxlength: [1000, 'Password is too long!']
     },
     date:{
         type: Date,

@@ -4,7 +4,7 @@ const router = express.Router()
 
 const User = require('../model/User')
 
-const {consValidationErr} = require('../validation_cons')
+const {consValidationErr} = require('../val_errs_cons')
 
 // Register router
 router.post('/register', async (req, res) => {
