@@ -4,6 +4,8 @@ const app = express()
 
 const PORT = 5300
 
+require('./helpers/mongodb_init')
+
 const authRoute = require('./routes/auth')
 
 // Route middlewares
