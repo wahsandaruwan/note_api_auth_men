@@ -8,6 +8,10 @@ require('./helpers/mongodb_init')
 
 const authRoute = require('./routes/auth')
 
+// Common middleware
+app.use(express.json())
+app.use(express.urlencoded(), {new: true})
+
 // Route middlewares
 app.use('/api/user', authRoute)
 
