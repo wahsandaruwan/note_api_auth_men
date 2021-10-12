@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
     date:{
         type: Date,
         default: Date.now
+    },
+    profileImage:{
+        type: String,
+        required: [true, 'Profile image is required!']
     }
 })
 
