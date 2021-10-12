@@ -6,6 +6,8 @@ const User = require('../model/User')
 
 const {consValidationErr} = require('../val_errs_cons')
 
+const {emailExistInDB} = require('../validations')
+
 // Register router
 router.post('/register', async (req, res) => {
     // Create a new user
@@ -16,8 +18,14 @@ router.post('/register', async (req, res) => {
     })
 
     try{
-        const registeredUser = await user.save()
-        res.send(registeredUser)
+        // Check email already exist in db
+        if(await emailExistInDB(User, req.body.email)){
+            res.send('Email already exist!')
+        }
+        else{
+            const registeredUser = await user.save()
+            res.send(registeredUser)
+        }
     }catch(err){
         res.status(400).send(consValidationErr(err))
         console.log(consValidationErr(err))

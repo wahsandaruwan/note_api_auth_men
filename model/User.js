@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-// Create user schema/model
+// Create user schema/model with data validation
 const userSchema = new mongoose.Schema({
     name:{
         type: String,
