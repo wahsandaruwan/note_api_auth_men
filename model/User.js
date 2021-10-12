@@ -4,12 +4,14 @@ const userSchema = new mongoose.Schema({
     name:{
         type: String,
         required: [true, 'User name is required!'],
-        min: [6, 'Name is too short!'],
-        max: [100, 'Name is too long!']
+        minlength: [6, 'Name is too short!'],
+        maxlength: [100, 'Name is too long!']
     },
     email:{
         type: String,
         required: [true, 'User email is required!'],
+        minlength: [6, 'Email is too short!'],
+        maxlength: [100, 'Email is too long!'],
         validate: {
             validator: (email) => {
                 const regEx = /^[a-zA-Z\d\._-]+@[a-zA-Z\d_-]+\.[a-zA-Z\d\.]{2,}$/
