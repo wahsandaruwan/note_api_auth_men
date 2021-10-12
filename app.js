@@ -9,6 +9,6 @@ app.get('/', (req, res) =>{
 })
 
 // Bind and listen the connections on the specified host and port
-app.listen(3300, () => {
+app.listen(PORT, () => {
     console.log(`Server on Port : ${PORT}`)
 })
