@@ -10,7 +10,9 @@ const authRoute = require('./routes/auth')
 
 // Common middleware
 app.use(express.json())
-app.use(express.urlencoded(), {new: true})
+app.use(express.urlencoded({
+    extended: true
+}))
 
 // Route middlewares
 app.use('/api/user', authRoute)
