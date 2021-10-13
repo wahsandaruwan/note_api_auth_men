@@ -4,8 +4,6 @@ const router = express.Router()
 
 const User = require('../model/User')
 
-const {consValidationErr} = require('../val_errs_cons')
-
 const {emailExistInDB} = require('../validations')
 
 const bcrypt = require('bcrypt')
@@ -25,7 +23,7 @@ const storage = multer.diskStorage({
 const maxSize = 1 * 1024 * 1024
 const uploadImage = multer({
     storage: storage,
-    limits: {fileSize: maxSize}
+    limits: { fileSize: maxSize }
 })
 
 // Register router
@@ -34,7 +32,7 @@ router.post('/register', uploadImage.single('image'), async (req, res) => {
     const name = req.body.name
     const email = req.body.email
     const hashedPass = req.body.password !== undefined ? await bcrypt.hash(req.body.password, 8) : undefined
-    const profileImage = req.file ? req.file.filename : undefined 
+    const profileImage = req.file ? req.file.filename : undefined
 
     // Create a new user
     const user = new User({
@@ -44,35 +42,35 @@ router.post('/register', uploadImage.single('image'), async (req, res) => {
         profileImage: profileImage
     })
 
-    try{
+    try {
         // Check email already exist in db
-        if(await emailExistInDB(User, req.body.email)){
+        if (await emailExistInDB(User, req.body.email)) {
             res.status(400).send('Email already exist!')
         }
-        else{
+        else {
             const registeredUser = await user.save()
             res.send(registeredUser)
         }
-    }catch(err){
-        res.status(400).send(consValidationErr(err))
-        console.log(consValidationErr(err))
+    } catch (err) {
+        res.status(400).send(err.message)
     }
+
 })
 
 // Login router
 router.post('/login', async (req, res) => {
     // Check email already exist in db
-    if(user = await emailExistInDB(User, req.body.email)){
+    if (user = await emailExistInDB(User, req.body.email)) {
         // Check the password matches
         const passOk = await bcrypt.compare(req.body.password, user.password)
-        if(!passOk){
+        if (!passOk) {
             res.status(400).send('Wrong password!')
         }
-        else{
+        else {
             res.send('Logged In!')
         }
     }
-    else{
+    else {
         res.status(400).send('Wrong email!')
     }
 })
