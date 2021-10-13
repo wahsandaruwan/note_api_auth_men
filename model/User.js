@@ -4,28 +4,15 @@ const mongoose = require('mongoose')
 const userSchema = new mongoose.Schema({
     name:{
         type: String,
-        required: [true, 'User name is required!'],
-        minlength: [6, 'Name is too short!'],
-        maxlength: [100, 'Name is too long!']
+        required: true
     },
     email:{
         type: String,
-        required: [true, 'User email is required!'],
-        minlength: [6, 'Email is too short!'],
-        maxlength: [100, 'Email is too long!'],
-        validate: {
-            validator: (email) => {
-                const regEx = /^[a-zA-Z\d\._-]+@[a-zA-Z\d_-]+\.[a-zA-Z\d\.]{2,}$/
-                return regEx.test(email)
-            },
-            message: 'Email is invalid!'
-        }
+        required: true
     },
     password:{
         type: String,
-        required: [true, 'User password is required!'],
-        minlength: [6, 'Password is too short!'],
-        maxlength: [1000, 'Password is too long!']
+        required: true
     },
     date:{
         type: Date,
@@ -33,7 +20,7 @@ const userSchema = new mongoose.Schema({
     },
     profileImage:{
         type: String,
-        required: [true, 'Profile image is required!']
+        required: true
     }
 })
 
