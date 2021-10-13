@@ -6,7 +6,7 @@ const User = require('../model/User')
 
 const {consValidationErr} = require('../val_errs_cons')
 
-const {emailExistInDB, regValidation} = require('../validations')
+const {emailExistInDB} = require('../validations')
 
 const bcrypt = require('bcrypt')
 
@@ -30,39 +30,32 @@ const uploadImage = multer({
 
 // Register router
 router.post('/register', uploadImage.single('image'), async (req, res) => {
-    // Validation
-    const {error} = regValidation(req.body)
-    if(error){
-        res.status(400).send(error.details[0].message)
-    }
-    else{
-        // Data
-        const name = req.body.name
-        const email = req.body.email
-        const hashedPass = req.body.password !== undefined ? await bcrypt.hash(req.body.password, 8) : undefined
-        const profileImage = req.file ? req.file.filename : undefined 
+    // Data
+    const name = req.body.name
+    const email = req.body.email
+    const hashedPass = req.body.password !== undefined ? await bcrypt.hash(req.body.password, 8) : undefined
+    const profileImage = req.file ? req.file.filename : undefined 
 
-        // Create a new user
-        const user = new User({
-            name: name,
-            email: email,
-            password: hashedPass,
-            profileImage: profileImage
-        })
+    // Create a new user
+    const user = new User({
+        name: name,
+        email: email,
+        password: hashedPass,
+        profileImage: profileImage
+    })
 
-        try{
-            // Check email already exist in db
-            if(await emailExistInDB(User, req.body.email)){
-                res.status(400).send('Email already exist!')
-            }
-            else{
-                const registeredUser = await user.save()
-                res.send(registeredUser)
-            }
-        }catch(err){
-            res.status(400).send(consValidationErr(err))
-            console.log(consValidationErr(err))
+    try{
+        // Check email already exist in db
+        if(await emailExistInDB(User, req.body.email)){
+            res.status(400).send('Email already exist!')
         }
+        else{
+            const registeredUser = await user.save()
+            res.send(registeredUser)
+        }
+    }catch(err){
+        res.status(400).send(consValidationErr(err))
+        console.log(consValidationErr(err))
     }
 })
 
